@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_input_stuff"
+                    android:text="@string/input_stuff"
+                    android:textSize="24sp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/input_stuff"
+                    android:hint="@string/input_stuff_hint"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:gravity="center" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="8dp"
+            android:gravity="center" >
+            <CheckBox android:id="@+id/checkbox_paper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trash_paper"
+                android:textSize="18sp"/>
+            <CheckBox android:id="@+id/checkbox_plastic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trash_plastic"
+                android:textSize="18sp" />
+            <CheckBox android:id="@+id/checkbox_glass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trash_glass"
+                android:textSize="18sp" />
+            <CheckBox android:id="@+id/checkbox_metal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trash_metal"
+                android:textSize="18sp" />
+            <CheckBox android:id="@+id/checkbox_plastic_bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trash_plastic_bag"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/apply"
+        android:text="@string/button_apply"
+        android:textSize="24sp"
+        android:layout_margin="8dp"
+        android:background="@drawable/round_button_lighter" />
+
+</LinearLayout>

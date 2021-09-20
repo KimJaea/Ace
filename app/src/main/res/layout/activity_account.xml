@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="8dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp" >
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_id"
+                    android:text="@string/_id"
+                    android:textSize="28sp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/id"
+                    android:text=""
+                    android:textSize="28sp"
+                    android:gravity="right"
+                    android:paddingRight="20sp"
+                    android:background="@drawable/round_button_lighter"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp" >
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/_point"
+                    android:text="@string/_point"
+                    android:textSize="28sp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/point"
+                    android:text=""
+                    android:textSize="28sp"
+                    android:gravity="right"
+                    android:paddingRight="20sp"
+                    android:background="@drawable/round_button_lighter"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="8dp" >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/check_point"
+                android:text="@string/button_check_point"
+                android:textSize="24dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_button_lighter"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_info"
+                android:text="@string/button_edit_info"
+                android:textSize="24dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_button_lighter"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sign_out"
+                android:text="@string/button_sign_out"
+                android:textSize="24dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_button_lighter"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
