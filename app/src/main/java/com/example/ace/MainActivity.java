@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonQR = findViewById(R.id.buttonQR);
         Button buttonDB = findViewById(R.id.buttonDB);
-        Button buttonList = findViewById(R.id.buttonList);
         Button buttonHow = findViewById(R.id.buttonHow);
 
         buttonQR.setOnClickListener(new View.OnClickListener() {
@@ -39,13 +38,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), DBActivity.class);
                 intent.putExtra("ID", ID);
-                startActivity(intent);
-            }
-        });
-        buttonList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
                 startActivity(intent);
             }
         });

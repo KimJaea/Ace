@@ -12,8 +12,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.IOException;
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 public class DBActivity extends AppCompatActivity {
 
@@ -31,6 +35,15 @@ public class DBActivity extends AppCompatActivity {
 
         //재활용 안된 애들만 모아보기
         // 구매
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
+                startActivity(intent);
+            }
+        });
 
         this.InitializeData();
 

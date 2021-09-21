@@ -12,7 +12,7 @@
     <string name="button_account">나의 계정</string>
 
     <!-- Sign In Page -->
-    <string name="signin_announcement">전화번호로 가입할 수 있습니다.</string>
+    <string name="signin_announcement">전화번호로 회원 가입할 수 있습니다.</string>
     <string name="button_signin">회원 가입하기</string>
 
     <!-- Find Account Page -->
@@ -25,6 +25,8 @@
 
     <!-- List Page -->
     <string name="button_search">검색하기</string>
+    <string name="button_icon">icon button</string>
+    <string name="text_icon">수정하기</string>
     <string name="trash_paper">종이</string>
     <string name="trash_plastic">플라스틱</string>
     <string name="trash_glass">유리</string>

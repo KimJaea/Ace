@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         buttonAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "계정 찾기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
-                // 계정 찾기
+                Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+                startActivity(intent);
             }
         });
     }

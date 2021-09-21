@@ -27,6 +27,7 @@
         <activity android:name=".DBActivity"/>
         <activity android:name=".RecycleActivity"/>
         <activity android:name=".AccountActivity"/>
+
     </application>
 
 </manifest>

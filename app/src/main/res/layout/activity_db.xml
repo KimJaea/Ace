@@ -2,19 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="8dp" >
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:gravity="center">
         <EditText
             android:id="@+id/editTextSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="검색어를 입력하세요."
-            android:inputType="textPersonName"
+            android:textSize="20sp"
             android:minHeight="48dp"
             android:layout_weight="2"/>
         <Button
@@ -23,14 +25,32 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_button_darker"
             android:text="@string/button_search"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_weight="1"
-            android:paddingLeft="8dp"/>
+            android:layout_marginLeft="8dp"/>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listView_db"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listView_db"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/recycle_bin_48px"
+            android:contentDescription="@string/button_icon"
+            android:text="@string/text_icon"
+            android:layout_margin="16dp"
+            app:fabSize="mini" />
+    </FrameLayout>
 
 </LinearLayout>

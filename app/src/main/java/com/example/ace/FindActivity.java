@@ -14,7 +14,7 @@ public class FindActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_find);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("비밀번호 찾기");
