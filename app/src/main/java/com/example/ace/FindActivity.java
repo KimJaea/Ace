@@ -17,7 +17,8 @@ public class FindActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("비밀번호 찾기");
+        // actionBar.setTitle("비밀번호 찾기");
+        actionBar.hide();
 
         EditText id = findViewById(R.id.id);
         Button find = findViewById(R.id.find);

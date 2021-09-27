@@ -20,7 +20,8 @@ public class SigninActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("회원 가입");
+        // actionBar.setTitle("회원 가입");
+        actionBar.hide();
 
         EditText id = findViewById(R.id.id);
         EditText pw = findViewById(R.id.pw);

@@ -2,6 +2,7 @@ package com.example.ace;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +12,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 public class AccountActivity extends AppCompatActivity {
     TextView id, point;
+
+    String addr, str;
+    String response;
+    Handler handler = new Handler(); // Main Thread Handler Object to Toast Message
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,9 @@ public class AccountActivity extends AppCompatActivity {
         check_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addr = ""; // HOST IP
+                str = ID; // Data to Send;
+                SocketThread thread = new SocketThread(addr, str);
                 //포인트 내역 확인하기
             }
         });
@@ -52,5 +64,41 @@ public class AccountActivity extends AppCompatActivity {
                 // 탈퇴하기
             }
         });
+    }
+
+    class SocketThread extends Thread {
+        String host; // Server IP
+        String data; // Data to Send;
+
+        public SocketThread(String host, String data) {
+            this.host = host;
+            this.data = data;
+        }
+
+        @Override
+        public void run() {
+            try {
+                int port = 8080; // Port Number, Same with Server's
+                Socket socket = new Socket(host, port);
+                ObjectOutputStream outstream = new ObjectOutputStream(socket.getOutputStream());
+                outstream.writeObject(data); // Put Data
+                outstream.flush(); // Send Data
+
+                ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
+                response = (String)instream.readObject(); // Get Response
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(AccountActivity.this, "서버 응답: " + response, Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                socket.close();;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

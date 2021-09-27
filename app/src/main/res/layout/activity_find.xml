@@ -4,71 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center" >
+    android:background="@drawable/gradation_background" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:gravity="center" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/announcement"
             android:text="@string/announcement"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:layout_marginBottom="8dp" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp" >
+            android:ems="10"
+            android:hint="ID(전화번호)"
+            android:textColor="@color/green_700"
+            android:textColorHint="@color/green_700"
+            android:inputType="phone"
+            android:layout_marginBottom="8dp"
+            android:minHeight="48dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="8dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/_id"
-                    android:text="ID(전화번호): "
-                    android:textSize="24sp"
-                    />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/id"
-                    android:text=""
-                    android:textSize="24sp"
-                    android:inputType="number"
-                    android:gravity="right"
-                    android:layout_marginLeft="8dp"
-                    android:paddingRight="20sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp" >
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/find"
-                android:text="@string/button_find"
-                android:textSize="24dp"
-                android:background="@drawable/round_button_lighter" />
-
-        </LinearLayout>
+            android:id="@+id/find"
+            android:text="@string/button_find"
+            android:textSize="24dp"
+            android:textColor="@color/green_700"
+            android:background="@drawable/round_button_lighter"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
 

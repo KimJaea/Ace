@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonQR = findViewById(R.id.buttonQR);
         Button buttonDB = findViewById(R.id.buttonDB);
-        Button buttonHow = findViewById(R.id.buttonHow);
+        Button buttonHow = findViewById(R.id.buttonAccount);
 
         buttonQR.setOnClickListener(new View.OnClickListener() {
             @Override
