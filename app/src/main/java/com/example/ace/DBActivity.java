@@ -53,11 +53,8 @@ public class DBActivity extends AppCompatActivity {
                 //databaseAccess = DatabaseAccess.getInstance(DBActivity.this);
                 //System.out.println(databaseAccess);
 
-                Intent intent = new Intent(getApplicationContext(), Application.class);
+                Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
                 startActivity(intent);
-
-                // Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
-                // startActivity(intent);
             }
         });
 

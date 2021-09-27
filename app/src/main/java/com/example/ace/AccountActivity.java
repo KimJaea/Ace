@@ -30,19 +30,13 @@ import java.net.UnknownHostException;
 public class AccountActivity extends AppCompatActivity {
     TextView id, point;
 
-    Button button1, button2, button3, button4, button5;
-    TextView textView;
-
+    Button refresh;
     SocketThread thread;
-    String addr, str, response;
+    String addr, str;
     Socket socket;
-    ObjectOutputStream outstream;
-    ObjectInputStream instream;
 
     private static InputStream is;
     private static OutputStream os;
-
-    Handler handler = new Handler(); // Main Thread Handler Object to Toast Message
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,75 +53,16 @@ public class AccountActivity extends AppCompatActivity {
         id.setText(ID);
         point.setText("0");
 
-        textView = (TextView)findViewById(R.id.textview);
-        button1 = (Button)findViewById(R.id.button1);
-        button1.setOnClickListener(new View.OnClickListener() {
+        refresh = (Button)findViewById(R.id.refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addr = "192.168.0.136"; // HOST IP
                 str = ID; // Data to Send
-
-                Toast.makeText(getApplicationContext(), "send to " + addr + ", message is " + str, Toast.LENGTH_LONG).show();
                 thread = new SocketThread(addr, str);
                 new Thread() {
                     public void run() {
                         thread.run();
-                    }
-                }.start();
-            }
-        });
-        button2 = (Button)findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addr = "192.168.0.136"; // HOST IP
-                str = ID; // Data to Send
-                thread = new SocketThread(addr, str);
-                new Thread() {
-                    public void run() {
-                        thread.run2();
-                    }
-                }.start();
-            }
-        });
-        button3 = (Button)findViewById(R.id.button3);
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addr = "192.168.0.136"; // HOST IP
-                str = ID; // Data to Send
-                thread = new SocketThread(addr, str);
-                new Thread() {
-                    public void run() {
-                        thread.run3();
-                    }
-                }.start();
-            }
-        });
-        button4 = (Button)findViewById(R.id.button4);
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addr = "192.168.0.136"; // HOST IP
-                str = ID; // Data to Send
-                thread = new SocketThread(addr, str);
-                new Thread() {
-                    public void run() {
-                        thread.recieve2();
-                    }
-                }.start();
-            }
-        });
-        button5 = (Button)findViewById(R.id.button5);
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addr = "192.168.0.136"; // HOST IP
-                str = ID; // Data to Send
-                thread = new SocketThread(addr, str);
-                new Thread() {
-                    public void run() {
-                        thread.recieve3();
                     }
                 }.start();
             }
@@ -167,66 +102,26 @@ public class AccountActivity extends AppCompatActivity {
             this.host = host;
             this.data = data;
         }
-
         @Override
         public void run() {
             try {
-                int port = 8080; // Port Number, Same with Server's
-                socket = new Socket(host, port);
-
-                outstream = new ObjectOutputStream(socket.getOutputStream());
-                outstream.writeObject(data); // Put Data
-                outstream.flush(); // Send Data
-                textView.setText(data + " 송신 완료");
-
-                instream = new ObjectInputStream(socket.getInputStream());
-                try {
-                    response = (String)instream.readObject(); // Get Response
-                    textView.setText("수신 완료");
-                } catch (Exception e) {
-                    textView.setText("수신 불가: " + e);
-                }
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(AccountActivity.this, "서버 응답: " + response, Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                textView.setText(response);
-                socket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        public void run2() {
-            try {
                 socket = new Socket();
                 socket.connect(new InetSocketAddress(host, 8080));
 
-                is = socket.getInputStream();
+                byte[] byteArr = data.getBytes("UTF-8");
                 os = socket.getOutputStream();
-
-                byte[] byteArr = null;
-                String msg = data;
-
-                byteArr = msg.getBytes("UTF-8");
                 os.write(byteArr);
                 os.flush();
 
-                textView.setText(msg + "송신 성공");
+                try {
+                    BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
+                    String read = input.readLine();
+                    point.setText(read); // <Null>
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    point.setText("수신 불가: " + e);
+                }
 
-                byteArr = new byte[512];
-                int readByteCount = is.read();
-
-                if(readByteCount == -1)
-                    throw new IOException();
-
-                msg = new String(byteArr, 0, readByteCount, "UTF-8");
-                textView.setText("수신 성공: <" + msg + ">"); // <>
-
-                is.close();
                 os.close();
             } catch (UnknownHostException e) {
                 // TODO Auto-generated catch block
@@ -246,87 +141,6 @@ public class AccountActivity extends AppCompatActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            }
-        }
-        public void run3() {
-            try {
-                int port = 8080; // Port Number, Same with Server's
-                socket = new Socket(host, port);
-
-                outstream = new ObjectOutputStream(socket.getOutputStream());
-                outstream.writeObject(data); // Put Data
-                outstream.flush(); // Send Data
-                textView.setText(data + " 송신 완료");
-
-                try {
-                    BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
-                    String read = input.readLine();
-                    textView.setText("수신 완료: <" + read + ">"); // <Null>
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    textView.setText("수신 불가: " + e);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        public void recieve2() {
-            try {
-                socket = new Socket();
-                socket.connect(new InetSocketAddress(host, 8080));
-
-                is = socket.getInputStream();
-                os = socket.getOutputStream();
-
-                byte[] byteArr = null;
-                String msg = data;
-
-                byteArr = new byte[512];
-                int readByteCount = is.read();
-
-                if(readByteCount == -1)
-                    throw new IOException();
-
-                msg = new String(byteArr, 0, readByteCount, "UTF-8");
-                textView.setText("수신 성공: <" + msg + ">"); // <>
-
-                is.close();
-                os.close();
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                // Wrong IP Address
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                // Cannot connect to Server of Port
-                e.printStackTrace();
-                try { socket.close(); } catch (IOException e1) { e1.printStackTrace(); }
-            }
-
-            if(!socket.isClosed()) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-        public void recieve3() {
-            try {
-                int port = 8080; // Port Number, Same with Server's
-                socket = new Socket(host, port);
-
-                try {
-                    BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
-                    String read = input.readLine();
-                    textView.setText("수신 완료: <" + read + ">"); // <Null>
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    textView.setText("수신 불가: " + e);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }

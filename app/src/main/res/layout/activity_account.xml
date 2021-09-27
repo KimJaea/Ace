@@ -91,35 +91,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button1"
-                android:text="전체1 (수신 불가)"
-                android:textSize="24dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/gradation_button"
-                />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button2"
-                android:text="전체2"
-                android:textSize="24dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/gradation_button"
-                />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button3"
-                android:text="전체3"
-                android:textSize="24dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/gradation_button"
-                />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button4"
-                android:text="수신2"
+                android:id="@+id/refresh"
+                android:text="새로 고침"
                 android:textSize="24dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/gradation_button"
@@ -128,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/button5"
-                android:text="수신3"
+                android:text="수신 성공"
                 android:textSize="24dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/gradation_button"
