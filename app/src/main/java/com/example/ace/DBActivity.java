@@ -2,6 +2,7 @@ package com.example.ace;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -24,7 +25,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class DBActivity extends AppCompatActivity {
@@ -43,15 +47,11 @@ public class DBActivity extends AppCompatActivity {
         String ID = myIntent.getStringExtra("ID");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(ID + "님의 기록 확인");
-        // + 재활용 안된 애들만 모아보기
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // DB
-                //databaseAccess = DatabaseAccess.getInstance(DBActivity.this);
-                //System.out.println(databaseAccess);
 
                 Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
                 startActivity(intent);
@@ -65,17 +65,40 @@ public class DBActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
-                String msg = dbAdapter.getItem(position).getTrash() + " 쓰레기";
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                // String msg = dbAdapter.getItem(position).getTrash() + " 쓰레기";
+                // Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     public void InitializeData() {
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream is = assetManager.open("raw/user_record.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader reader = new BufferedReader(isr);
+
+            StringBuffer buffer = new StringBuffer();
+            String line = reader.readLine();
+            while(line != null) {
+                buffer.append(line + "\n");
+                line = reader.readLine();
+            }
+
+            String jsonData = buffer.toString();
+            Toast.makeText(getApplicationContext(), jsonData, Toast.LENGTH_LONG).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            //Toast.makeText(getApplicationContext(), "error occured " + e, Toast.LENGTH_LONG).show();
+        }
+
         dbDataList = new ArrayList<DBItem>();
-        dbDataList.add(new DBItem("종이", "e)이천쌀콘150ml", false));
-        dbDataList.add(new DBItem("플라스틱", "e)소프트워터청포도500ml(new)",false));
-        dbDataList.add(new DBItem("비닐", "e)소프트워터청포도500ml(new)",true));
+        dbDataList.add(new DBItem("유리", "e)제비표에이드애플그린340ml", true));
+        dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml", true));
+        dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml",false));
+        dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml",false));
+        dbDataList.add(new DBItem("비닐", "아임이)바닐라향웨이퍼롤115g(S)",true));
     }
 
     // DB

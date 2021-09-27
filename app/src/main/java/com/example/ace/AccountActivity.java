@@ -34,7 +34,6 @@ import java.net.UnknownHostException;
 public class AccountActivity extends AppCompatActivity {
     TextView id, point;
 
-    Button refresh, refresh2;
     SocketThread thread;
     String addr, str;
     Socket socket;
@@ -57,8 +56,8 @@ public class AccountActivity extends AppCompatActivity {
         id.setText(ID);
         point.setText("0");
 
-        refresh = (Button)findViewById(R.id.refresh);
-        refresh.setOnClickListener(new View.OnClickListener() {
+        Button check_point = findViewById(R.id.check_point);
+        check_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addr = "192.168.0.136"; // HOST IP
@@ -69,29 +68,6 @@ public class AccountActivity extends AppCompatActivity {
                         thread.run();
                     }
                 }.start();
-            }
-        });
-        refresh2 = (Button)findViewById(R.id.refresh2);
-        refresh2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addr = "192.168.0.136"; // HOST IP
-                str = ID; // Data to Send
-                thread = new SocketThread(addr, str);
-                new Thread() {
-                    public void run() {
-                        thread.run2();
-                    }
-                }.start();
-            }
-        });
-
-        Button check_point = findViewById(R.id.check_point);
-        check_point.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "포인트 내역 확인하기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
-                // 포인트 내역 확인하기
             }
         });
         Button edit_info = findViewById(R.id.edit_info);
@@ -135,52 +111,6 @@ public class AccountActivity extends AppCompatActivity {
                     BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
                     String read = input.readLine();
                     point.setText(read);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    point.setText("수신 불가: " + e);
-                }
-
-                os.close();
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                // Wrong IP Address
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                // Cannot connect to Server of Port
-                e.printStackTrace();
-                try { socket.close(); } catch (IOException e1) { e1.printStackTrace(); }
-            }
-
-            if(!socket.isClosed()) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-        public void run2() {
-            try {
-                socket = new Socket();
-                socket.connect(new InetSocketAddress(host, 8080));
-
-                byte[] byteArr = data.getBytes("UTF-8");
-                os = socket.getOutputStream();
-                os.write(byteArr);
-                os.flush();
-
-                String datas;
-                try {
-                    byte[] buffer = new byte[1024];
-                    InputStream input = socket.getInputStream();
-                    datas = byteArrayToHex(buffer);
-                    point.setText(datas);
-                    while (datas != null) {
-                        datas = byteArrayToHex(buffer);
-                        point.setText(datas);
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     point.setText("수신 불가: " + e);
