@@ -13,15 +13,35 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class AccountActivity extends AppCompatActivity {
     TextView id, point;
 
-    String addr, str;
-    String response;
+    Button button1, button2, button3, button4, button5;
+    TextView textView;
+
+    SocketThread thread;
+    String addr, str, response;
+    Socket socket;
+    ObjectOutputStream outstream;
+    ObjectInputStream instream;
+
+    private static InputStream is;
+    private static OutputStream os;
+
     Handler handler = new Handler(); // Main Thread Handler Object to Toast Message
 
     @Override
@@ -39,18 +59,92 @@ public class AccountActivity extends AppCompatActivity {
         id.setText(ID);
         point.setText("0");
 
+        textView = (TextView)findViewById(R.id.textview);
+        button1 = (Button)findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addr = "192.168.0.136"; // HOST IP
+                str = ID; // Data to Send
+
+                Toast.makeText(getApplicationContext(), "send to " + addr + ", message is " + str, Toast.LENGTH_LONG).show();
+                thread = new SocketThread(addr, str);
+                new Thread() {
+                    public void run() {
+                        thread.run();
+                    }
+                }.start();
+            }
+        });
+        button2 = (Button)findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addr = "192.168.0.136"; // HOST IP
+                str = ID; // Data to Send
+
+                thread = new SocketThread(addr, str);
+                new Thread() {
+                    public void run() {
+                        thread.send();
+                    }
+                }.start();
+            }
+        });
+        button3 = (Button)findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addr = "192.168.0.136"; // HOST IP
+                str = ID; // Data to Send
+
+                thread = new SocketThread(addr, str);
+                new Thread() {
+                    public void run() {
+                        thread.recieve();
+                    }
+                }.start();
+            }
+        });
+        button4 = (Button)findViewById(R.id.button4);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addr = "192.168.0.136"; // HOST IP
+                str = ID; // Data to Send
+
+                Toast.makeText(getApplicationContext(), "세번째 송수신", Toast.LENGTH_LONG).show();
+                thread = new SocketThread(addr, str);
+                new Thread() {
+                    public void run() {
+                        thread.run3();
+                    }
+                }.start();
+            }
+        });
+        button5 = (Button)findViewById(R.id.button5);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addr = "192.168.0.136"; // HOST IP
+                str = ID; // Data to Send
+
+                Toast.makeText(getApplicationContext(), "run2() function", Toast.LENGTH_LONG).show();
+                thread = new SocketThread(addr, str);
+                new Thread() {
+                    public void run() {
+                        thread.run2();
+                    }
+                }.start();
+            }
+        });
+
         Button check_point = findViewById(R.id.check_point);
         check_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addr = "192.168.0.136"; // HOST IP
-                // str = ID; // Data to Send;
-                str = "내가 보내는 아이디는 " + ID + "입니다. 확인해주세요.";
-
-                Toast.makeText(getApplicationContext(), addr + ", " + str, Toast.LENGTH_LONG).show();
-                SocketThread thread = new SocketThread(addr, str);
-
-                thread.run(); // 포인트 내역 확인하기
+                Toast.makeText(getApplicationContext(), "포인트 내역 확인하기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
+                // 포인트 내역 확인하기
             }
         });
         Button edit_info = findViewById(R.id.edit_info);
@@ -77,6 +171,7 @@ public class AccountActivity extends AppCompatActivity {
 
         public SocketThread(String host, String data) {
             Log.d("thread", host + "thread created!"); // log for check
+
             this.host = host;
             this.data = data;
         }
@@ -87,13 +182,20 @@ public class AccountActivity extends AppCompatActivity {
                 Log.d("thread", "thread started!"); // log for check
 
                 int port = 8080; // Port Number, Same with Server's
-                Socket socket = new Socket(host, port);
-                ObjectOutputStream outstream = new ObjectOutputStream(socket.getOutputStream());
+                socket = new Socket(host, port);
+
+                outstream = new ObjectOutputStream(socket.getOutputStream());
                 outstream.writeObject(data); // Put Data
                 outstream.flush(); // Send Data
+                textView.setText(data + " 송신 완료");
 
-                ObjectInputStream instream = new ObjectInputStream(socket.getInputStream());
-                response = (String)instream.readObject(); // Get Response
+                instream = new ObjectInputStream(socket.getInputStream());
+                try {
+                    response = (String)instream.readObject(); // Get Response
+                    textView.setText("수신 완료");
+                } catch (Exception e) {
+                    textView.setText("수신 불가: " + e);
+                }
 
                 handler.post(new Runnable() {
                     @Override
@@ -102,10 +204,144 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 });
 
-                socket.close();;
-
+                textView.setText(response);
+                socket.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+        public void run2() {
+            try {
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(host, 8080));
+
+                is = socket.getInputStream();
+                os = socket.getOutputStream();
+
+                byte[] byteArr = null;
+                String msg = data;
+
+                byteArr = msg.getBytes("UTF-8");
+                os.write(byteArr);
+                os.flush();
+
+                textView.setText(msg + "송신 성공");
+
+                byteArr = new byte[512];
+                int readByteCount = is.read();
+
+                if(readByteCount == -1)
+                    throw new IOException();
+
+                msg = new String(byteArr, 0, readByteCount, "UTF-8");
+                textView.setText("수신 성공: " + msg);
+
+                is.close();
+                os.close();
+            } catch (UnknownHostException e) {
+                // TODO Auto-generated catch block
+                // Wrong IP Address
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                // Cannot connect to Server of Port
+                e.printStackTrace();
+                try { socket.close(); } catch (IOException e1) { e1.printStackTrace(); }
+            }
+
+            if(!socket.isClosed()) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        public void run3() {
+            try {
+                int port = 8080; // Port Number, Same with Server's
+                socket = new Socket(host, port);
+
+                outstream = new ObjectOutputStream(socket.getOutputStream());
+                outstream.writeObject(data); // Put Data
+                outstream.flush(); // Send Data
+                textView.setText(data + " 송신 완료");
+
+                try {
+                    BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
+                    String read = input.readLine();
+                    textView.setText("수신 완료: " + read);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    textView.setText("수신 불가: " + e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        public void send() {
+            try {
+                int port = 8080; // Port Number, Same with Server's
+                Socket socket = new Socket(host, port);
+                outstream = new ObjectOutputStream(socket.getOutputStream());
+                outstream.writeObject(data); // Put Data
+                outstream.flush(); // Send Data
+                textView.setText(data + " 송신 완료");
+
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "error: " + e, Toast.LENGTH_SHORT).show();
+            }
+        }
+        public void recieve() {
+            try {
+                int port = 8080; // Port Number, Same with Server's
+                Socket socket = new Socket(host, port);
+                instream = new ObjectInputStream(socket.getInputStream());
+                textView.setText("수신 준비");
+                try {
+                    response = (String)instream.readObject(); // Get Response
+                } catch (Exception e) {
+                    response = "안돼";
+                    textView.setText("수신 실패");
+                    Toast.makeText(getApplicationContext(), "error: " + e, Toast.LENGTH_SHORT).show();
+                } finally {
+
+                    textView.setText("수신 완료");
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(AccountActivity.this, "서버 응답: " + response, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "error: " + e, Toast.LENGTH_SHORT).show();
+            }
+        }
+        public void connect() {
+            try {
+                int port = 8080; // Port Number, Same with Server's
+                Socket socket = new Socket(host, port);
+                outstream = new ObjectOutputStream(socket.getOutputStream());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "connect error: " + e, Toast.LENGTH_SHORT).show();
+            }
+        }
+        public void disconnect() {
+            try {
+                outstream.close();
+                instream.close();
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "disconnect error: " + e, Toast.LENGTH_SHORT).show();
             }
         }
     }
