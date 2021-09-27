@@ -80,14 +80,6 @@
             android:layout_gravity="bottom"
             android:layout_margin="8dp" >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textview"
-                android:text="(현황)"
-                android:textSize="28sp"
-                android:gravity="center"
-                />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,8 +92,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button5"
-                android:text="수신 성공"
+                android:id="@+id/refresh2"
+                android:text="4096 새로 고침"
                 android:textSize="24dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/gradation_button"
