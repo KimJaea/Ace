@@ -82,11 +82,10 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 addr = "192.168.0.136"; // HOST IP
                 str = ID; // Data to Send
-
                 thread = new SocketThread(addr, str);
                 new Thread() {
                     public void run() {
-                        thread.send();
+                        thread.run2();
                     }
                 }.start();
             }
@@ -97,11 +96,10 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 addr = "192.168.0.136"; // HOST IP
                 str = ID; // Data to Send
-
                 thread = new SocketThread(addr, str);
                 new Thread() {
                     public void run() {
-                        thread.recieve();
+                        thread.run3();
                     }
                 }.start();
             }
@@ -112,12 +110,10 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 addr = "192.168.0.136"; // HOST IP
                 str = ID; // Data to Send
-
-                Toast.makeText(getApplicationContext(), "세번째 송수신", Toast.LENGTH_LONG).show();
                 thread = new SocketThread(addr, str);
                 new Thread() {
                     public void run() {
-                        thread.run3();
+                        thread.recieve2();
                     }
                 }.start();
             }
@@ -128,12 +124,10 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 addr = "192.168.0.136"; // HOST IP
                 str = ID; // Data to Send
-
-                Toast.makeText(getApplicationContext(), "run2() function", Toast.LENGTH_LONG).show();
                 thread = new SocketThread(addr, str);
                 new Thread() {
                     public void run() {
-                        thread.run2();
+                        thread.recieve3();
                     }
                 }.start();
             }
@@ -170,8 +164,6 @@ public class AccountActivity extends AppCompatActivity {
         String data; // Data to Send;
 
         public SocketThread(String host, String data) {
-            Log.d("thread", host + "thread created!"); // log for check
-
             this.host = host;
             this.data = data;
         }
@@ -179,8 +171,6 @@ public class AccountActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                Log.d("thread", "thread started!"); // log for check
-
                 int port = 8080; // Port Number, Same with Server's
                 socket = new Socket(host, port);
 
@@ -234,7 +224,7 @@ public class AccountActivity extends AppCompatActivity {
                     throw new IOException();
 
                 msg = new String(byteArr, 0, readByteCount, "UTF-8");
-                textView.setText("수신 성공: " + msg);
+                textView.setText("수신 성공: <" + msg + ">"); // <>
 
                 is.close();
                 os.close();
@@ -271,7 +261,7 @@ public class AccountActivity extends AppCompatActivity {
                 try {
                     BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
                     String read = input.readLine();
-                    textView.setText("수신 완료: " + read);
+                    textView.setText("수신 완료: <" + read + ">"); // <Null>
                 } catch (Exception e) {
                     e.printStackTrace();
                     textView.setText("수신 불가: " + e);
@@ -280,68 +270,63 @@ public class AccountActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        public void send() {
+        public void recieve2() {
             try {
-                int port = 8080; // Port Number, Same with Server's
-                Socket socket = new Socket(host, port);
-                outstream = new ObjectOutputStream(socket.getOutputStream());
-                outstream.writeObject(data); // Put Data
-                outstream.flush(); // Send Data
-                textView.setText(data + " 송신 완료");
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(host, 8080));
 
-                socket.close();
-            } catch (Exception e) {
+                is = socket.getInputStream();
+                os = socket.getOutputStream();
+
+                byte[] byteArr = null;
+                String msg = data;
+
+                byteArr = new byte[512];
+                int readByteCount = is.read();
+
+                if(readByteCount == -1)
+                    throw new IOException();
+
+                msg = new String(byteArr, 0, readByteCount, "UTF-8");
+                textView.setText("수신 성공: <" + msg + ">"); // <>
+
+                is.close();
+                os.close();
+            } catch (UnknownHostException e) {
+                // TODO Auto-generated catch block
+                // Wrong IP Address
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "error: " + e, Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                // Cannot connect to Server of Port
+                e.printStackTrace();
+                try { socket.close(); } catch (IOException e1) { e1.printStackTrace(); }
             }
-        }
-        public void recieve() {
-            try {
-                int port = 8080; // Port Number, Same with Server's
-                Socket socket = new Socket(host, port);
-                instream = new ObjectInputStream(socket.getInputStream());
-                textView.setText("수신 준비");
+
+            if(!socket.isClosed()) {
                 try {
-                    response = (String)instream.readObject(); // Get Response
-                } catch (Exception e) {
-                    response = "안돼";
-                    textView.setText("수신 실패");
-                    Toast.makeText(getApplicationContext(), "error: " + e, Toast.LENGTH_SHORT).show();
-                } finally {
-
-                    textView.setText("수신 완료");
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(AccountActivity.this, "서버 응답: " + response, Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    socket.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
-
-                socket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "error: " + e, Toast.LENGTH_SHORT).show();
             }
         }
-        public void connect() {
+        public void recieve3() {
             try {
                 int port = 8080; // Port Number, Same with Server's
-                Socket socket = new Socket(host, port);
-                outstream = new ObjectOutputStream(socket.getOutputStream());
+                socket = new Socket(host, port);
+
+                try {
+                    BufferedReader input = new BufferedReader((new InputStreamReader(socket.getInputStream())));
+                    String read = input.readLine();
+                    textView.setText("수신 완료: <" + read + ">"); // <Null>
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    textView.setText("수신 불가: " + e);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "connect error: " + e, Toast.LENGTH_SHORT).show();
-            }
-        }
-        public void disconnect() {
-            try {
-                outstream.close();
-                instream.close();
-                socket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "disconnect error: " + e, Toast.LENGTH_SHORT).show();
             }
         }
     }
