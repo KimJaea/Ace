@@ -47,8 +47,7 @@ public class QRActivity extends AppCompatActivity {
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try{
-            // QR Information: 01055558888, 20210920113030
-            BitMatrix bitMatrix = multiFormatWriter.encode(ID + ", " + getTime, BarcodeFormat.QR_CODE,size.x - 100,size.y - 100);
+            BitMatrix bitMatrix = multiFormatWriter.encode(ID + " " + getTime, BarcodeFormat.QR_CODE,size.x - 100,size.y - 100);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             qrCodeView.setImageBitmap(bitmap);

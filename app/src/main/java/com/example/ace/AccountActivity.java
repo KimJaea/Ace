@@ -3,6 +3,7 @@ package com.example.ace;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,10 +43,14 @@ public class AccountActivity extends AppCompatActivity {
         check_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addr = ""; // HOST IP
-                str = ID; // Data to Send;
+                addr = "192.168.0.136"; // HOST IP
+                // str = ID; // Data to Send;
+                str = "내가 보내는 아이디는 " + ID + "입니다. 확인해주세요.";
+
+                Toast.makeText(getApplicationContext(), addr + ", " + str, Toast.LENGTH_LONG).show();
                 SocketThread thread = new SocketThread(addr, str);
-                //포인트 내역 확인하기
+
+                thread.run(); // 포인트 내역 확인하기
             }
         });
         Button edit_info = findViewById(R.id.edit_info);
@@ -71,6 +76,7 @@ public class AccountActivity extends AppCompatActivity {
         String data; // Data to Send;
 
         public SocketThread(String host, String data) {
+            Log.d("thread", host + "thread created!"); // log for check
             this.host = host;
             this.data = data;
         }
@@ -78,6 +84,8 @@ public class AccountActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
+                Log.d("thread", "thread started!"); // log for check
+
                 int port = 8080; // Port Number, Same with Server's
                 Socket socket = new Socket(host, port);
                 ObjectOutputStream outstream = new ObjectOutputStream(socket.getOutputStream());
