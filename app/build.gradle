@@ -22,6 +22,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -29,7 +30,8 @@ android {
 
 dependencies {
     // Amplify core dependency
-    implementation 'com.amplifyframework:core:1.24.0'
+    implementation 'com.amplifyframework:aws-api:1.28.1'
+    implementation 'com.amplifyframework:aws-datastore:1.28.1'
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
@@ -42,10 +44,19 @@ dependencies {
 
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0' // QR
     implementation 'com.google.android.material:material:1.1.0-beta01' // Floating Icon
+    implementation 'com.android.support:design:27.1.1' // Floating Action Button
 
     implementation 'com.amazonaws:aws-android-sdk-core:2.6.+'
     implementation 'com.amazonaws:aws-android-sdk-ddb:2.6.+'
     implementation 'com.amazonaws:aws-android-sdk-ddb-document:2.6.+'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+
+    // Amplify plugins
+    implementation 'com.amplifyframework:core:1.6.5'
+    implementation 'com.amplifyframework:aws-api:1.6.5'
+    implementation 'com.amplifyframework:aws-datastore:1.6.5'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 }

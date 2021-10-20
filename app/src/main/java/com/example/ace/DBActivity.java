@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,11 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.BufferedReader;
@@ -30,6 +36,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 public class DBActivity extends AppCompatActivity {
     // DB
@@ -52,11 +61,19 @@ public class DBActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
                 startActivity(intent);
             }
         });
+
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            //Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("Amplify", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("Amplify", "Could not initialize Amplify", error);
+        }
 
         this.InitializeData();
         ListView listView = (ListView) findViewById(R.id.listView_db);
@@ -65,10 +82,12 @@ public class DBActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
-                // String msg = dbAdapter.getItem(position).getTrash() + " 쓰레기";
-                // Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                String msg = dbAdapter.getItem(position).getTrash() + " 쓰레기";
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
+
+
     }
 
     public void InitializeData() {
