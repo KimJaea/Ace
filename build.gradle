@@ -10,10 +10,10 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:10.8.0"
         classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
 
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
 
     }
 }

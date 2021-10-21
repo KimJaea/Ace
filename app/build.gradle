@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.ace"
-        minSdk 21
+        minSdk 23
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -29,9 +29,16 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     // Amplify core dependency
     implementation 'com.amplifyframework:aws-api:1.28.1'
     implementation 'com.amplifyframework:aws-datastore:1.28.1'
+    // AWSMobileClient
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.11'
+    // aws amplify for the drop-in ui
+    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.11'
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.16.11'
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 

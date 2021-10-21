@@ -1,34 +1,28 @@
 package com.example.ace;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.renderscript.RenderScript;
+import android.util.EventLogTags;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.dynamodbv2.document.Table;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.query.Where;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.AmplifyModelProvider;
+import com.amplifyframework.datastore.generated.model.Todo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.BufferedReader;
@@ -68,7 +62,7 @@ public class DBActivity extends AppCompatActivity {
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
-            //Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.addPlugin(new AWSDataStorePlugin());
             Amplify.configure(getApplicationContext());
             Log.i("Amplify", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -87,6 +81,35 @@ public class DBActivity extends AppCompatActivity {
             }
         });
 
+        Date date = new Date();
+        int offsetMillis = TimeZone.getDefault().getOffset(date.getTime());
+        int offsetSeconds = (int) TimeUnit.MILLISECONDS.toSeconds(offsetMillis);
+        Temporal.DateTime temporalDateTime = new Temporal.DateTime(date, offsetSeconds);
+        Todo item = Todo.builder()
+                .name("Finish quarterly taxes")
+                .description("This is the first item.")
+                .build();
+        Amplify.DataStore.save(item,
+                success -> Log.i("Amplify", "Saved item: " + success.item().getName()),
+                error -> Log.e("Amplify", "Could not save item to DataStore", error)
+        );
+
+        Amplify.DataStore.query(Todo.class,
+                Where.matches(Todo.DESCRIPTION.eq("This is the first item.")),
+                todos -> {
+                    while (todos.hasNext()) {
+                        Todo todo = todos.next();
+
+                        Log.i("Amplify", "==== Todo ====");
+                        Log.i("Amplify", "Name: " + todo.getName());
+
+                        if (todo.getDescription() != null) {
+                            Log.i("Amplify", "Description: " + todo.getDescription().toString());
+                        }
+                    }
+                },
+                failure -> Log.e("Amplify", "Could not query DataStore", failure)
+        );
 
     }
 
