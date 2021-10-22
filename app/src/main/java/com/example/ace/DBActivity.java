@@ -1,7 +1,6 @@
 package com.example.ace;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,27 +12,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.model.query.Where;
-import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.datastore.generated.model.Priority;
-import com.amplifyframework.datastore.generated.model.Todo;
 import com.amplifyframework.datastore.generated.model.UserData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class DBActivity extends AppCompatActivity {
-    // DB
-    private String TAG = "DynamoDb_Demo";
-    DatabaseAccess databaseAccess;
-
     String UserID;
     ArrayList<DBItem> dbDataList;
 
@@ -70,29 +54,6 @@ public class DBActivity extends AppCompatActivity {
     }
 
     public void InitializeData() {
-        /*
-        AssetManager assetManager = getAssets();
-        try {
-            InputStream is = assetManager.open("raw/user_record.json");
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader reader = new BufferedReader(isr);
-
-            StringBuffer buffer = new StringBuffer();
-            String line = reader.readLine();
-            while(line != null) {
-                buffer.append(line + "\n");
-                line = reader.readLine();
-            }
-
-            String jsonData = buffer.toString();
-            Toast.makeText(getApplicationContext(), jsonData, Toast.LENGTH_LONG).show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            //Toast.makeText(getApplicationContext(), "error occured " + e, Toast.LENGTH_LONG).show();
-        }
-        */
-
         dbDataList = new ArrayList<DBItem>();
         dbDataList.add(new DBItem("유리", "e)제비표에이드애플그린340ml", true));
         //dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml", true));
@@ -120,29 +81,7 @@ public class DBActivity extends AppCompatActivity {
                     }
                 },
                 failure -> Log.e("Tutorial", "Could not query DataStore", failure)
-                );
-
-        /*
-        Amplify.DataStore.query(Todo.class,
-                Where.matches(Todo.PRIORITY.eq(Priority.NORMAL)),
-                todos -> {
-                    while (todos.hasNext()) {
-                        Todo todo = todos.next();
-
-                        Log.i("Amplify", "==== Todo ====");
-                        Log.i("Amplify", "Name: " + todo.getName());
-                        if (todo.getPriority() != null) {
-                            Log.i("Amplify", "Priority: " + todo.getPriority().toString());
-                        }
-                        if (todo.getCompletedAt() != null) {
-                            Log.i("Amplify", "Description: " + todo.getCompletedAt().toString());
-                        }
-                    }
-                },
-                failure -> Log.e("Tutorial", "Could not query DataStore", failure)
         );
-        */
-
     }
 
 }
