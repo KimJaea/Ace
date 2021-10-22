@@ -1,0 +1,32 @@
+type ObjectArray {
+  nam: String
+  buy_place: Int
+  recycle_place: [Int]
+  recycle_element: [Boolean]
+}
+
+type PointArray {
+  date_time: AWSDateTime
+  point: Int
+}
+
+type UserData @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pw: String
+  list_object: [ObjectArray]
+  point: [PointArray]
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+}
+
+type Todo @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  priority: Priority
+  completedAt: AWSDateTime
+}
+ 
