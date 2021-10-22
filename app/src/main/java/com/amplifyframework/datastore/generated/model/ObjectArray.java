@@ -8,12 +8,12 @@ import java.util.List;
 
 /** This is an auto generated class representing the ObjectArray type in your schema. */
 public final class ObjectArray {
-  private final String nam;
+  private final String name;
   private final Integer buy_place;
   private final List<Integer> recycle_place;
-  private final List<Boolean> recycle_element;
-  public String getNam() {
-      return nam;
+  private final List<String> recycle_element;
+  public String getName() {
+      return name;
   }
   
   public Integer getBuyPlace() {
@@ -24,12 +24,12 @@ public final class ObjectArray {
       return recycle_place;
   }
   
-  public List<Boolean> getRecycleElement() {
+  public List<String> getRecycleElement() {
       return recycle_element;
   }
   
-  private ObjectArray(String nam, Integer buy_place, List<Integer> recycle_place, List<Boolean> recycle_element) {
-    this.nam = nam;
+  private ObjectArray(String name, Integer buy_place, List<Integer> recycle_place, List<String> recycle_element) {
+    this.name = name;
     this.buy_place = buy_place;
     this.recycle_place = recycle_place;
     this.recycle_element = recycle_element;
@@ -43,7 +43,7 @@ public final class ObjectArray {
         return false;
       } else {
       ObjectArray objectArray = (ObjectArray) obj;
-      return ObjectsCompat.equals(getNam(), objectArray.getNam()) &&
+      return ObjectsCompat.equals(getName(), objectArray.getName()) &&
               ObjectsCompat.equals(getBuyPlace(), objectArray.getBuyPlace()) &&
               ObjectsCompat.equals(getRecyclePlace(), objectArray.getRecyclePlace()) &&
               ObjectsCompat.equals(getRecycleElement(), objectArray.getRecycleElement());
@@ -53,7 +53,7 @@ public final class ObjectArray {
   @Override
    public int hashCode() {
     return new StringBuilder()
-      .append(getNam())
+      .append(getName())
       .append(getBuyPlace())
       .append(getRecyclePlace())
       .append(getRecycleElement())
@@ -66,38 +66,38 @@ public final class ObjectArray {
   }
   
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(nam,
+    return new CopyOfBuilder(name,
       buy_place,
       recycle_place,
       recycle_element);
   }
   public interface BuildStep {
     ObjectArray build();
-    BuildStep nam(String nam);
+    BuildStep name(String name);
     BuildStep buyPlace(Integer buyPlace);
     BuildStep recyclePlace(List<Integer> recyclePlace);
-    BuildStep recycleElement(List<Boolean> recycleElement);
+    BuildStep recycleElement(List<String> recycleElement);
   }
   
 
   public static class Builder implements BuildStep {
-    private String nam;
+    private String name;
     private Integer buy_place;
     private List<Integer> recycle_place;
-    private List<Boolean> recycle_element;
+    private List<String> recycle_element;
     @Override
      public ObjectArray build() {
         
         return new ObjectArray(
-          nam,
+          name,
           buy_place,
           recycle_place,
           recycle_element);
     }
     
     @Override
-     public BuildStep nam(String nam) {
-        this.nam = nam;
+     public BuildStep name(String name) {
+        this.name = name;
         return this;
     }
     
@@ -114,7 +114,7 @@ public final class ObjectArray {
     }
     
     @Override
-     public BuildStep recycleElement(List<Boolean> recycleElement) {
+     public BuildStep recycleElement(List<String> recycleElement) {
         this.recycle_element = recycleElement;
         return this;
     }
@@ -122,16 +122,16 @@ public final class ObjectArray {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String nam, Integer buyPlace, List<Integer> recyclePlace, List<Boolean> recycleElement) {
-      super.nam(nam)
+    private CopyOfBuilder(String name, Integer buyPlace, List<Integer> recyclePlace, List<String> recycleElement) {
+      super.name(name)
         .buyPlace(buyPlace)
         .recyclePlace(recyclePlace)
         .recycleElement(recycleElement);
     }
     
     @Override
-     public CopyOfBuilder nam(String nam) {
-      return (CopyOfBuilder) super.nam(nam);
+     public CopyOfBuilder name(String name) {
+      return (CopyOfBuilder) super.name(name);
     }
     
     @Override
@@ -145,7 +145,7 @@ public final class ObjectArray {
     }
     
     @Override
-     public CopyOfBuilder recycleElement(List<Boolean> recycleElement) {
+     public CopyOfBuilder recycleElement(List<String> recycleElement) {
       return (CopyOfBuilder) super.recycleElement(recycleElement);
     }
   }

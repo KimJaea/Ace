@@ -15,7 +15,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
-import com.amplifyframework.datastore.generated.model.Todo;
+import com.amplifyframework.datastore.generated.model.UserData;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("Amplify", "Could not initialize Amplify", error);
             Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해 주세요.", Toast.LENGTH_LONG).show();
         }
-        Amplify.DataStore.observe(Todo.class,
+        Amplify.DataStore.observe(UserData.class,
                 started -> Log.i("Amplify", "Observation began."),
                 change -> Log.i("Amplify", change.item().toString()),
                 failure -> Log.e("Amplify", "Observation failed.", failure),

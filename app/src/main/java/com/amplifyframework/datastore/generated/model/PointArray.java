@@ -1,6 +1,5 @@
 package com.amplifyframework.datastore.generated.model;
 
-import com.amplifyframework.core.model.temporal.Temporal;
 
 import androidx.core.util.ObjectsCompat;
 
@@ -9,17 +8,17 @@ import java.util.List;
 
 /** This is an auto generated class representing the PointArray type in your schema. */
 public final class PointArray {
-  private final Temporal.DateTime date_time;
-  private final Integer point;
-  public Temporal.DateTime getDateTime() {
+  private final String date_time;
+  private final String point;
+  public String getDateTime() {
       return date_time;
   }
   
-  public Integer getPoint() {
+  public String getPoint() {
       return point;
   }
   
-  private PointArray(Temporal.DateTime date_time, Integer point) {
+  private PointArray(String date_time, String point) {
     this.date_time = date_time;
     this.point = point;
   }
@@ -56,14 +55,14 @@ public final class PointArray {
   }
   public interface BuildStep {
     PointArray build();
-    BuildStep dateTime(Temporal.DateTime dateTime);
-    BuildStep point(Integer point);
+    BuildStep dateTime(String dateTime);
+    BuildStep point(String point);
   }
   
 
   public static class Builder implements BuildStep {
-    private Temporal.DateTime date_time;
-    private Integer point;
+    private String date_time;
+    private String point;
     @Override
      public PointArray build() {
         
@@ -73,13 +72,13 @@ public final class PointArray {
     }
     
     @Override
-     public BuildStep dateTime(Temporal.DateTime dateTime) {
+     public BuildStep dateTime(String dateTime) {
         this.date_time = dateTime;
         return this;
     }
     
     @Override
-     public BuildStep point(Integer point) {
+     public BuildStep point(String point) {
         this.point = point;
         return this;
     }
@@ -87,18 +86,18 @@ public final class PointArray {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(Temporal.DateTime dateTime, Integer point) {
+    private CopyOfBuilder(String dateTime, String point) {
       super.dateTime(dateTime)
         .point(point);
     }
     
     @Override
-     public CopyOfBuilder dateTime(Temporal.DateTime dateTime) {
+     public CopyOfBuilder dateTime(String dateTime) {
       return (CopyOfBuilder) super.dateTime(dateTime);
     }
     
     @Override
-     public CopyOfBuilder point(Integer point) {
+     public CopyOfBuilder point(String point) {
       return (CopyOfBuilder) super.point(point);
     }
   }
