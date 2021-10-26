@@ -8,18 +8,18 @@ import java.util.List;
 
 /** This is an auto generated class representing the PointArray type in your schema. */
 public final class PointArray {
-  private final String date_time;
+  private final String date;
   private final String point;
-  public String getDateTime() {
-      return date_time;
+  public String getDate() {
+      return date;
   }
   
   public String getPoint() {
       return point;
   }
   
-  private PointArray(String date_time, String point) {
-    this.date_time = date_time;
+  private PointArray(String date, String point) {
+    this.date = date;
     this.point = point;
   }
   
@@ -31,7 +31,7 @@ public final class PointArray {
         return false;
       } else {
       PointArray pointArray = (PointArray) obj;
-      return ObjectsCompat.equals(getDateTime(), pointArray.getDateTime()) &&
+      return ObjectsCompat.equals(getDate(), pointArray.getDate()) &&
               ObjectsCompat.equals(getPoint(), pointArray.getPoint());
       }
   }
@@ -39,7 +39,7 @@ public final class PointArray {
   @Override
    public int hashCode() {
     return new StringBuilder()
-      .append(getDateTime())
+      .append(getDate())
       .append(getPoint())
       .toString()
       .hashCode();
@@ -50,30 +50,30 @@ public final class PointArray {
   }
   
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(date_time,
+    return new CopyOfBuilder(date,
       point);
   }
   public interface BuildStep {
     PointArray build();
-    BuildStep dateTime(String dateTime);
+    BuildStep date(String date);
     BuildStep point(String point);
   }
   
 
   public static class Builder implements BuildStep {
-    private String date_time;
+    private String date;
     private String point;
     @Override
      public PointArray build() {
         
         return new PointArray(
-          date_time,
+          date,
           point);
     }
     
     @Override
-     public BuildStep dateTime(String dateTime) {
-        this.date_time = dateTime;
+     public BuildStep date(String date) {
+        this.date = date;
         return this;
     }
     
@@ -86,14 +86,14 @@ public final class PointArray {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String dateTime, String point) {
-      super.dateTime(dateTime)
+    private CopyOfBuilder(String date, String point) {
+      super.date(date)
         .point(point);
     }
     
     @Override
-     public CopyOfBuilder dateTime(String dateTime) {
-      return (CopyOfBuilder) super.dateTime(dateTime);
+     public CopyOfBuilder date(String date) {
+      return (CopyOfBuilder) super.date(date);
     }
     
     @Override

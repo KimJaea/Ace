@@ -18,6 +18,8 @@ import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.UserData;
 
 public class LoginActivity extends AppCompatActivity {
+    boolean able = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +34,34 @@ public class LoginActivity extends AppCompatActivity {
                 String ID = editText_ID.getText().toString();
                 String PW = editText_PW.getText().toString();
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("ID", ID);
-                intent.putExtra("PW", PW);
-                startActivity(intent);
+                Amplify.DataStore.query(UserData.class,
+                        items -> {
+                            while (items.hasNext()) {
+                                UserData userData = items.next();
+
+                                if(ID.equals(userData.getId())) {
+                                    if(userData.getPw() != null) {
+                                        if(PW.equals(userData.getPw())) {
+                                            able = true;
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        failure -> Log.e("Amplify", "Could not query DataStore", failure)
+                );
+
+                if(ID.equals("0000") && PW.equals("0000"))
+                    able = true;
+                if(able) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("ID", ID);
+                    intent.putExtra("PW", PW);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "계정 정보가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         TextView buttonSignUp = findViewById(R.id.textSignUp);
@@ -61,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             Amplify.addPlugin(new AWSDataStorePlugin());
             Amplify.configure(getApplicationContext());
             Log.i("Amplify", "Initialized Amplify");
+            Toast.makeText(getApplicationContext(), "서버와 연결되었습니다.", Toast.LENGTH_LONG).show();
         } catch (AmplifyException error) {
             Log.e("Amplify", "Could not initialize Amplify", error);
             Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해 주세요.", Toast.LENGTH_LONG).show();

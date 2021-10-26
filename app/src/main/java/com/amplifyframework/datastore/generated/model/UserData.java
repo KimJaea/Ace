@@ -22,7 +22,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the UserData type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "UserData", authRules = {
-  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
+  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.UPDATE })
 })
 public final class UserData implements Model {
   public static final QueryField ID = field("UserData", "id");

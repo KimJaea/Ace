@@ -16,6 +16,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.ObjectArray;
+import com.amplifyframework.datastore.generated.model.PointArray;
+import com.amplifyframework.datastore.generated.model.UserData;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -32,6 +37,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class AccountActivity extends AppCompatActivity {
+    String ID;
+
     TextView id, point;
 
     SocketThread thread;
@@ -47,7 +54,7 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         Intent myIntent = getIntent();
-        String ID = myIntent.getStringExtra("ID");
+        ID = myIntent.getStringExtra("ID");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(ID + "님의 계정");
 
@@ -86,6 +93,21 @@ public class AccountActivity extends AppCompatActivity {
                 // 탈퇴하기
             }
         });
+
+        Amplify.DataStore.query(UserData.class,
+                items -> {
+                    while (items.hasNext()) {
+                        UserData userData = items.next();
+
+                        if(ID.equals(userData.getId())) {
+                            if (userData.getPoint() != null) {
+                                point.setText(userData.getPoint().get(0).toString());
+                            }
+                        }
+                    }
+                },
+                failure -> Log.e("Amplify", "Could not query DataStore", failure)
+        );
     }
 
     class SocketThread extends Thread {
