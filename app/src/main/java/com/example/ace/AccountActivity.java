@@ -16,11 +16,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.generated.model.ObjectArray;
-import com.amplifyframework.datastore.generated.model.PointArray;
-import com.amplifyframework.datastore.generated.model.UserData;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -94,21 +89,6 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        Amplify.DataStore.query(UserData.class,
-                items -> {
-                    while (items.hasNext()) {
-                        UserData userData = items.next();
-
-                        if(ID.equals(userData.getUserId())) {
-                            if (userData.getPoint() != null) {
-                                point.setText(userData.getPoint().get(0).toString());
-                                Toast.makeText(getApplicationContext(), userData.getPoint().get(0).toString() + " 포인트", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                },
-                failure -> Log.e("Amplify", "Could not query DataStore", failure)
-        );
     }
 
     class SocketThread extends Thread {
