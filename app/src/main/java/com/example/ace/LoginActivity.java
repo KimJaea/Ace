@@ -2,6 +2,7 @@ package com.example.ace;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,10 +34,22 @@ public class LoginActivity extends AppCompatActivity {
                 String ID = editText_ID.getText().toString();
                 String PW = editText_PW.getText().toString();
 
+                //
 
+                if(ID.equals("0000") && PW.equals("0000"))
+                    able = true;
 
+                if(able) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("ID", ID);
+                    intent.putExtra("PW", PW);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "계정 정보가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
+
         TextView buttonSignUp = findViewById(R.id.textSignUp);
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +67,26 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Amplify
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSDataStorePlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("Amplify", "Initialized Amplify");
+            Toast.makeText(getApplicationContext(), "서버와 연결되었습니다.", Toast.LENGTH_LONG).show();
+        } catch (AmplifyException error) {
+            Log.e("Amplify", "Could not initialize Amplify", error);
+            Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해 주세요.", Toast.LENGTH_LONG).show();
+        }
+
+        /*
+        Amplify.DataStore.observe(UserData.class,
+                started -> Log.i("Amplify", "Observation began."),
+                change -> Log.i("Amplify", change.item().toString()),
+                failure -> Log.e("Amplify", "Observation failed.", failure),
+                () -> Log.i("Amplify", "Observation complete.")
+        );
+        */
 
     }
 }
