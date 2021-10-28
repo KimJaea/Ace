@@ -99,9 +99,10 @@ public class AccountActivity extends AppCompatActivity {
                     while (items.hasNext()) {
                         UserData userData = items.next();
 
-                        if(ID.equals(userData.getId())) {
+                        if(ID.equals(userData.getUserId())) {
                             if (userData.getPoint() != null) {
                                 point.setText(userData.getPoint().get(0).toString());
+                                Toast.makeText(getApplicationContext(), userData.getPoint().get(0).toString() + " 포인트", Toast.LENGTH_LONG).show();
                             }
                         }
                     }

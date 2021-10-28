@@ -60,7 +60,6 @@ public class DBActivity extends AppCompatActivity {
         //dbDataList.add(new DBItem("유리", "e)제비표에이드애플그린340ml", true));
         //dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml", true));
         //dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml",false));
-        //dbDataList.add(new DBItem("비닐", "e)제비표에이드애플그린340ml",false));
         //dbDataList.add(new DBItem("비닐", "아임이)바닐라향웨이퍼롤115g(S)",true));
 
         Amplify.DataStore.query(UserData.class,
@@ -73,7 +72,8 @@ public class DBActivity extends AppCompatActivity {
                             if (userData.getListObject() != null) {
                                 ObjectArray[] Stuffs = userData.getListObject().toArray(new ObjectArray[0]);
                                 for (int i = 0; i < Stuffs.length; i++){
-                                    //int recycled = Stuffs[i].getRecyclePlace().toArray().length;
+                                    int recycled = Stuffs[i].getRecyclePlace().toArray().length;
+                                    /*
                                     String[] element = Stuffs[i].getRecycleEmelent().toArray(new String[0]);
 
                                     Log.i("Amplify", "Stuff: " + Stuffs[i].getName());
@@ -88,6 +88,8 @@ public class DBActivity extends AppCompatActivity {
                                         dbDataList.add(new DBItem("플라스틱", Stuffs[i].getName().toString(), false));
                                     if(Stuffs[i].getRecycleEmelent().get(4) != null)
                                         dbDataList.add(new DBItem("비닐", Stuffs[i].getName().toString(), false));
+
+                                     */
                                 }
                             }
                         }

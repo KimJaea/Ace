@@ -39,9 +39,9 @@ public class LoginActivity extends AppCompatActivity {
                             while (items.hasNext()) {
                                 UserData userData = items.next();
 
-                                if(ID.equals(userData.getId())) {
-                                    if(userData.getPw() != null) {
-                                        if(PW.equals(userData.getPw())) {
+                                if(ID.equals(userData.getUserId())) {
+                                    if(userData.getUserPw() != null) {
+                                        if(PW.equals(userData.getUserPw())) {
                                             able = true;
                                         }
                                     }

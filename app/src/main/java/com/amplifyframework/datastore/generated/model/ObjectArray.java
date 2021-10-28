@@ -11,7 +11,7 @@ public final class ObjectArray {
   private final String name;
   private final Integer buy_place;
   private final List<Integer> recycle_place;
-  private final List<String> recycle_emelent;
+  private final List<String> recycle_element;
   public String getName() {
       return name;
   }
@@ -24,15 +24,15 @@ public final class ObjectArray {
       return recycle_place;
   }
   
-  public List<String> getRecycleEmelent() {
-      return recycle_emelent;
+  public List<String> getRecycleElement() {
+      return recycle_element;
   }
   
-  private ObjectArray(String name, Integer buy_place, List<Integer> recycle_place, List<String> recycle_emelent) {
+  private ObjectArray(String name, Integer buy_place, List<Integer> recycle_place, List<String> recycle_element) {
     this.name = name;
     this.buy_place = buy_place;
     this.recycle_place = recycle_place;
-    this.recycle_emelent = recycle_emelent;
+    this.recycle_element = recycle_element;
   }
   
   @Override
@@ -46,7 +46,7 @@ public final class ObjectArray {
       return ObjectsCompat.equals(getName(), objectArray.getName()) &&
               ObjectsCompat.equals(getBuyPlace(), objectArray.getBuyPlace()) &&
               ObjectsCompat.equals(getRecyclePlace(), objectArray.getRecyclePlace()) &&
-              ObjectsCompat.equals(getRecycleEmelent(), objectArray.getRecycleEmelent());
+              ObjectsCompat.equals(getRecycleElement(), objectArray.getRecycleElement());
       }
   }
   
@@ -56,7 +56,7 @@ public final class ObjectArray {
       .append(getName())
       .append(getBuyPlace())
       .append(getRecyclePlace())
-      .append(getRecycleEmelent())
+      .append(getRecycleElement())
       .toString()
       .hashCode();
   }
@@ -69,14 +69,14 @@ public final class ObjectArray {
     return new CopyOfBuilder(name,
       buy_place,
       recycle_place,
-      recycle_emelent);
+      recycle_element);
   }
   public interface BuildStep {
     ObjectArray build();
     BuildStep name(String name);
     BuildStep buyPlace(Integer buyPlace);
     BuildStep recyclePlace(List<Integer> recyclePlace);
-    BuildStep recycleEmelent(List<String> recycleEmelent);
+    BuildStep recycleElement(List<String> recycleElement);
   }
   
 
@@ -84,7 +84,7 @@ public final class ObjectArray {
     private String name;
     private Integer buy_place;
     private List<Integer> recycle_place;
-    private List<String> recycle_emelent;
+    private List<String> recycle_element;
     @Override
      public ObjectArray build() {
         
@@ -92,7 +92,7 @@ public final class ObjectArray {
           name,
           buy_place,
           recycle_place,
-          recycle_emelent);
+          recycle_element);
     }
     
     @Override
@@ -114,19 +114,19 @@ public final class ObjectArray {
     }
     
     @Override
-     public BuildStep recycleEmelent(List<String> recycleEmelent) {
-        this.recycle_emelent = recycleEmelent;
+     public BuildStep recycleElement(List<String> recycleElement) {
+        this.recycle_element = recycleElement;
         return this;
     }
   }
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String name, Integer buyPlace, List<Integer> recyclePlace, List<String> recycleEmelent) {
+    private CopyOfBuilder(String name, Integer buyPlace, List<Integer> recyclePlace, List<String> recycleElement) {
       super.name(name)
         .buyPlace(buyPlace)
         .recyclePlace(recyclePlace)
-        .recycleEmelent(recycleEmelent);
+        .recycleElement(recycleElement);
     }
     
     @Override
@@ -145,8 +145,8 @@ public final class ObjectArray {
     }
     
     @Override
-     public CopyOfBuilder recycleEmelent(List<String> recycleEmelent) {
-      return (CopyOfBuilder) super.recycleEmelent(recycleEmelent);
+     public CopyOfBuilder recycleElement(List<String> recycleElement) {
+      return (CopyOfBuilder) super.recycleElement(recycleElement);
     }
   }
   
