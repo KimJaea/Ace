@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -23,10 +21,10 @@ import java.util.List;
 
 public class DBActivity extends AppCompatActivity {
     String UserID;
-    DBAdapter dbAdapter;
     ArrayList<DBItem> dbDataList;
-    ArrayList<DBItem> showList;
-    Spinner spinner;
+
+    // ArrayList<DBItem> showList;
+    // Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,7 @@ public class DBActivity extends AppCompatActivity {
 
         this.InitializeData();
         ListView listView = (ListView) findViewById(R.id.listView_db);
-        dbAdapter = new DBAdapter(this, dbDataList);
+        final DBAdapter dbAdapter = new DBAdapter(this, dbDataList);
         listView.setAdapter(dbAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -61,6 +59,7 @@ public class DBActivity extends AppCompatActivity {
             }
         });
 
+        /*
         ArrayList arrayList = new ArrayList<>();
         arrayList.add("전체");
         arrayList.add("유리");
@@ -69,10 +68,8 @@ public class DBActivity extends AppCompatActivity {
         arrayList.add("플라스틱");
         arrayList.add("비닐");
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
-                this, R.layout.support_simple_spinner_dropdown_item, arrayList);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
 
-        /*
         spinner = (Spinner) findViewById(R.id.sort_spinner);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,13 +79,12 @@ public class DBActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), arrayList.get(position) + " 선택", Toast.LENGTH_LONG).show();
             }
         });
-
-         */
+        */
     }
 
+    /*
     public void search(String charText) {
         showList.clear();
-
         if(charText.equals("전체")) {
             showList.addAll(dbDataList);
         } else {
@@ -98,15 +94,12 @@ public class DBActivity extends AppCompatActivity {
                 }
             }
         }
-
         dbAdapter.notifyDataSetChanged();
     }
+    */
 
     public void InitializeData() {
         dbDataList = new ArrayList<DBItem>();
-        //showList = new ArrayList<DBItem>();
-
-        dbDataList.add(new DBItem("테스트 종류", "테스트 물품",false));
 
         Amplify.DataStore.query(
                 UserData.class,
@@ -114,37 +107,43 @@ public class DBActivity extends AppCompatActivity {
                     while (items.hasNext()) {
                         UserData item = items.next();
                         if(item.getUserId().toString().equals(UserID)) {
+                            Log.i("Amplify", "ID: " + item.getUserId().toString());
                             List<ObjectArray> objects = item.getListObject();
                             for(int i = 0; i < objects.size(); i++) {
                                 ObjectArray object = objects.get(i);
                                 for(int j = 0; j < object.getRecycleElement().size(); j++) {
-                                    String stuff = "일반 쓰레기";
-                                    switch (j) {
-                                        case 0:
-                                            stuff = "유리";
-                                            break;
-                                        case 1:
 
-                                            stuff = "고철";
-                                            break;
-                                        case 2:
+                                    dbDataList.add(new DBItem("유리", object.getName(),false));
 
-                                            stuff = "종이";
-                                            break;
-                                        case 3:
-                                            stuff = "플라스틱";
-                                            break;
-                                        case 4:
-                                            stuff = "비닐";
-                                            break;
-                                    }
-
-                                    if(!object.getRecycleElement().get(j).equals("")) {
-                                        dbDataList.add(new DBItem(stuff, object.getName(),false));
-                                        Log.i("Amplify", "ID: " + item.getUserId().toString());
-                                        Log.i("Amplify", "Data: " + object.getName());
+                                    if(!object.getRecycleElement().get(j).isEmpty()) {
+                                        if(j == 0) {
+                                            dbDataList.add(new DBItem("유리", object.getName(),false));
+                                        } else if(j == 1) {
+                                            dbDataList.add(new DBItem("고철", object.getName(),false));
+                                        } else if(j == 2) {
+                                            dbDataList.add(new DBItem("종이", object.getName(),false));
+                                        } else if(j == 3) {
+                                            dbDataList.add(new DBItem("플라스틱", object.getName(),false));
+                                        } else if(j == 4) {
+                                            dbDataList.add(new DBItem("비닐", object.getName(),false));
+                                        } else {
+                                            dbDataList.add(new DBItem("일반 쓰레기", object.getName(),false));
+                                        }
+                                        // FORMAT - 물품명_개수_YYYY/M/D/T/m
                                     } else {
-                                        // dbDataList.add(new DBItem(stuff, object.getName(),true));
+                                        if(j == 0) {
+                                            dbDataList.add(new DBItem("유리", object.getName(),true));
+                                        } else if(j == 1) {
+                                            dbDataList.add(new DBItem("고철", object.getName(),true));
+                                        } else if(j == 2) {
+                                            dbDataList.add(new DBItem("종이", object.getName(),true));
+                                        } else if(j == 3) {
+                                            dbDataList.add(new DBItem("플라스틱", object.getName(),true));
+                                        } else if(j == 4) {
+                                            dbDataList.add(new DBItem("비닐", object.getName(),true));
+                                        } else {
+                                            dbDataList.add(new DBItem("일반 쓰레기", object.getName(),true));
+                                        }
                                     }
                                 }
                             }
@@ -154,8 +153,10 @@ public class DBActivity extends AppCompatActivity {
                 failure -> Log.e("Amplify", "Could not query DataStore", failure)
         );
 
+        // dbDataList.add(new DBItem("테스트 종류", "테스트 물품",false));
+        //showList = new ArrayList<DBItem>();
         //showList.addAll(dbDataList);
+
     }
 
 }
-

@@ -64,7 +64,9 @@ public class AccountActivity extends AppCompatActivity {
         check_point.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 내역 페이지로 이동
+                Intent intent = new Intent(getApplicationContext(), PointActivity.class);
+                intent.putExtra("ID", ID);
+                startActivity(intent);
             }
         });
         Button edit_info = findViewById(R.id.edit_info);
