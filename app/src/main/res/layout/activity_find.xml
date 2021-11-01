@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/announcement"
+            android:textColor="@color/green_700"
             android:text="@string/announcement"
             android:textSize="18sp"
             android:gravity="center"

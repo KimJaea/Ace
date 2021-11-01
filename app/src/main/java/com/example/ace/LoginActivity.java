@@ -2,7 +2,7 @@ package com.example.ace;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.autofill.UserData;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +16,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.UserData;
 
 public class LoginActivity extends AppCompatActivity {
     boolean able = false;
@@ -28,25 +29,48 @@ public class LoginActivity extends AppCompatActivity {
         EditText editText_ID = findViewById(R.id.editTextID);
         EditText editText_PW = findViewById(R.id.editTextPW);
         Button buttonLogin = findViewById(R.id.buttonLogin);
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String ID = editText_ID.getText().toString();
                 String PW = editText_PW.getText().toString();
 
-                //
+                Amplify.DataStore.query(
+                        UserData.class,
+                        items -> {
+                            while (items.hasNext()) {
+                                UserData item = items.next();
+                                Log.i("Amplify", "User Id " + item.getUserId().toString()); //
+                                Log.i("Amplify", "User PW " + item.getUserPw()); //
+                                if(item.getUserId().toString().equals(ID) && item.getUserPw().equals(PW)) {
+                                    able = true;
+                                    break;
+                                }
+                            }
+                        },
+                        failure -> Log.e("Amplify", "Could not query DataStore", failure)
+                );
 
+                // 관리자 코드
                 if(ID.equals("0000") && PW.equals("0000"))
                     able = true;
 
-                if(able) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("ID", ID);
-                    intent.putExtra("PW", PW);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "계정 정보가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
-                }
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(able) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("ID", ID);
+                            intent.putExtra("PW", PW);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "계정 정보가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, 500);
+
             }
         });
 
@@ -79,14 +103,12 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해 주세요.", Toast.LENGTH_LONG).show();
         }
 
-        /*
         Amplify.DataStore.observe(UserData.class,
                 started -> Log.i("Amplify", "Observation began."),
                 change -> Log.i("Amplify", change.item().toString()),
                 failure -> Log.e("Amplify", "Observation failed.", failure),
                 () -> Log.i("Amplify", "Observation complete.")
         );
-        */
 
     }
 }

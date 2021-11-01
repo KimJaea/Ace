@@ -3,7 +3,7 @@
     <string name="app_name">쓰레기를 찾아서</string>
     <string name="sign_in">로그인</string>
     <string name="sign_up"> 회원 가입 </string>
-    <string name="forgot_account"> 비밀번호 찾기 </string>
+    <string name="forgot_account"> 계정 찾기 </string>
 
     <!-- Main Page -->
     <string name="button_qr_code">QR 코드</string>

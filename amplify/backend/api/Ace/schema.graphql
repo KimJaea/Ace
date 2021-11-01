@@ -17,4 +17,3 @@ type UserData @model @auth(rules: [{allow: public}]) {
   list_object: [ObjectArray]
   point: [PointArray]
 }
- 

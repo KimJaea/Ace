@@ -23,7 +23,6 @@ import java.util.Date;
 
 public class QRActivity extends AppCompatActivity {
     private ImageView qrCodeView;
-    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

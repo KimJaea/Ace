@@ -87,7 +87,8 @@
                 android:text="@string/button_check_point"
                 android:textSize="24dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/round_button_lighter"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button_darker"
                 />
             <Button
                 android:layout_width="match_parent"
@@ -96,7 +97,8 @@
                 android:text="@string/button_edit_info"
                 android:textSize="24dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/round_button_lighter"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button_darker"
                 />
             <Button
                 android:layout_width="match_parent"
@@ -105,7 +107,8 @@
                 android:text="@string/button_sign_out"
                 android:textSize="24dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/round_button_lighter"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button_darker"
                 />
 
         </LinearLayout>
