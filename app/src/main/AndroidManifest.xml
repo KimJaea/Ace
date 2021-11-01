@@ -40,6 +40,7 @@
         <activity android:name=".DBActivity"/>
         <activity android:name=".RecycleActivity"/>
         <activity android:name=".AccountActivity"/>
+        <activity android:name=".PointActivity"/>
 
     </application>
 

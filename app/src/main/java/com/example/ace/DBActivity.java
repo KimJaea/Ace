@@ -101,6 +101,18 @@ public class DBActivity extends AppCompatActivity {
     public void InitializeData() {
         dbDataList = new ArrayList<DBItem>();
 
+        /*
+        if(UserID.equals("5423")) {
+            dbDataList.add(new DBItem("종이", "쫀득초코칩",false));
+            dbDataList.add(new DBItem("플라스틱", "양반오미자",false));
+            dbDataList.add(new DBItem("종이", "아몬드초코볼",false));
+            dbDataList.add(new DBItem("비닐", "아몬드초코볼",false));
+        } else {
+            dbDataList.add(new DBItem("비닐", "아임이)휴대용티슈70매",false));
+            dbDataList.add(new DBItem("비닐", "아임이)무흠집수세미3입",false));
+        }
+        */
+
         Amplify.DataStore.query(
                 UserData.class,
                 items -> {
@@ -112,38 +124,30 @@ public class DBActivity extends AppCompatActivity {
                             for(int i = 0; i < objects.size(); i++) {
                                 ObjectArray object = objects.get(i);
                                 for(int j = 0; j < object.getRecycleElement().size(); j++) {
-
-                                    dbDataList.add(new DBItem("유리", object.getName(),false));
-
                                     if(!object.getRecycleElement().get(j).isEmpty()) {
-                                        if(j == 0) {
-                                            dbDataList.add(new DBItem("유리", object.getName(),false));
-                                        } else if(j == 1) {
-                                            dbDataList.add(new DBItem("고철", object.getName(),false));
-                                        } else if(j == 2) {
-                                            dbDataList.add(new DBItem("종이", object.getName(),false));
-                                        } else if(j == 3) {
-                                            dbDataList.add(new DBItem("플라스틱", object.getName(),false));
-                                        } else if(j == 4) {
-                                            dbDataList.add(new DBItem("비닐", object.getName(),false));
-                                        } else {
-                                            dbDataList.add(new DBItem("일반 쓰레기", object.getName(),false));
+                                        switch (j) {
+                                            case 0:
+                                                dbDataList.add(new DBItem("유리", object.getName(),false));
+                                                break;
+                                            case 1:
+                                                dbDataList.add(new DBItem("고철", object.getName(),false));
+                                                break;
+                                            case 2:
+                                                dbDataList.add(new DBItem("종이", object.getName(),false));
+                                                break;
+                                            case 3:
+                                                dbDataList.add(new DBItem("플라스틱", object.getName(),false));
+                                                break;
+                                            case 4:
+                                                dbDataList.add(new DBItem("비닐", object.getName(),false));
+                                                break;
+                                            default:
+                                                dbDataList.add(new DBItem("일반 쓰레기", object.getName(),false));
                                         }
+
+                                        Log.i("Amplify", "Data: " + object.getName()); //
                                         // FORMAT - 물품명_개수_YYYY/M/D/T/m
                                     } else {
-                                        if(j == 0) {
-                                            dbDataList.add(new DBItem("유리", object.getName(),true));
-                                        } else if(j == 1) {
-                                            dbDataList.add(new DBItem("고철", object.getName(),true));
-                                        } else if(j == 2) {
-                                            dbDataList.add(new DBItem("종이", object.getName(),true));
-                                        } else if(j == 3) {
-                                            dbDataList.add(new DBItem("플라스틱", object.getName(),true));
-                                        } else if(j == 4) {
-                                            dbDataList.add(new DBItem("비닐", object.getName(),true));
-                                        } else {
-                                            dbDataList.add(new DBItem("일반 쓰레기", object.getName(),true));
-                                        }
                                     }
                                 }
                             }

@@ -35,7 +35,6 @@ public class PointActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(ID + "님의 포인트 내역");
 
-        /*
         this.InitializeData();
         ListView listView = (ListView) findViewById(R.id.listView_point);
         pointAdapter = new PointAdapter(this, pointDataList);
@@ -47,7 +46,7 @@ public class PointActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
-        */
+
     }
 
     public void InitializeData() {

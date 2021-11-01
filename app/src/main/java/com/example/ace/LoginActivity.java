@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                able = false;
                 String ID = editText_ID.getText().toString();
                 String PW = editText_PW.getText().toString();
 
