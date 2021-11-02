@@ -13,14 +13,12 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <!--
         <Spinner
             android:id="@+id/sort_spinner"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:spinnerMode="dialog"
             android:textAlignment="center" />
-        -->
 
     </LinearLayout>
 

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -22,9 +24,10 @@ import java.util.List;
 public class DBActivity extends AppCompatActivity {
     String UserID;
     ArrayList<DBItem> dbDataList;
-
-    // ArrayList<DBItem> showList;
-    // Spinner spinner;
+    DBAdapter dbAdapter;
+    ArrayList<DBItem> showList;
+    ArrayList<String> arrayList;
+    String[] items = {"전체", "유리", "고철", "종이", "플라스틱", "비닐"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class DBActivity extends AppCompatActivity {
 
         this.InitializeData();
         ListView listView = (ListView) findViewById(R.id.listView_db);
-        final DBAdapter dbAdapter = new DBAdapter(this, dbDataList);
+        dbAdapter = new DBAdapter(this, showList);
         listView.setAdapter(dbAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -59,30 +62,23 @@ public class DBActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        ArrayList arrayList = new ArrayList<>();
-        arrayList.add("전체");
-        arrayList.add("유리");
-        arrayList.add("고철");
-        arrayList.add("종이");
-        arrayList.add("플라스틱");
-        arrayList.add("비닐");
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
-
-        spinner = (Spinner) findViewById(R.id.sort_spinner);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, items);
+        spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        Spinner spinner = (Spinner) findViewById(R.id.sort_spinner);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //search(arrayList.get(position));
-                Toast.makeText(getApplicationContext(), arrayList.get(position) + " 선택", Toast.LENGTH_LONG).show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                search(items[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
-        */
     }
 
-    /*
     public void search(String charText) {
         showList.clear();
         if(charText.equals("전체")) {
@@ -96,7 +92,6 @@ public class DBActivity extends AppCompatActivity {
         }
         dbAdapter.notifyDataSetChanged();
     }
-    */
 
     public void InitializeData() {
         dbDataList = new ArrayList<DBItem>();
@@ -157,9 +152,8 @@ public class DBActivity extends AppCompatActivity {
                 failure -> Log.e("Amplify", "Could not query DataStore", failure)
         );
 
-        // dbDataList.add(new DBItem("테스트 종류", "테스트 물품",false));
-        //showList = new ArrayList<DBItem>();
-        //showList.addAll(dbDataList);
+        showList = new ArrayList<DBItem>();
+        showList.addAll(dbDataList);
 
     }
 
