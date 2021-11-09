@@ -60,13 +60,12 @@ public class FindActivity extends AppCompatActivity {
                             if(able) {
                                 // 문자 전송 기능
                                 // Toast.makeText(getApplicationContext(), "문자를 전송했습니다.", Toast.LENGTH_LONG).show();
-
                                 // Toast.makeText(getApplicationContext(), "계정 찾기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
+
                                 Toast.makeText(getApplicationContext(), "계정 비밀번호는 " + pw + "입니다.", Toast.LENGTH_LONG).show();
                                 finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "가입 정보가 없습니다.", Toast.LENGTH_LONG).show();
-                                finish();
                             }
                         }
                     }, 500);

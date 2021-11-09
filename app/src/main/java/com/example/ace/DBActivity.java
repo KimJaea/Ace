@@ -37,7 +37,7 @@ public class DBActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         UserID = myIntent.getStringExtra("ID");
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(UserID + "님의 기록 확인");
+        actionBar.setTitle(UserID + "님의 기록");
 
         /*
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -96,18 +96,6 @@ public class DBActivity extends AppCompatActivity {
     public void InitializeData() {
         dbDataList = new ArrayList<DBItem>();
 
-        /*
-        if(UserID.equals("5423")) {
-            dbDataList.add(new DBItem("종이", "쫀득초코칩",false));
-            dbDataList.add(new DBItem("플라스틱", "양반오미자",false));
-            dbDataList.add(new DBItem("종이", "아몬드초코볼",false));
-            dbDataList.add(new DBItem("비닐", "아몬드초코볼",false));
-        } else {
-            dbDataList.add(new DBItem("비닐", "아임이)휴대용티슈70매",false));
-            dbDataList.add(new DBItem("비닐", "아임이)무흠집수세미3입",false));
-        }
-        */
-
         Amplify.DataStore.query(
                 UserData.class,
                 items -> {
@@ -120,28 +108,31 @@ public class DBActivity extends AppCompatActivity {
                                 ObjectArray object = objects.get(i);
                                 for(int j = 0; j < object.getRecycleElement().size(); j++) {
                                     if(!object.getRecycleElement().get(j).isEmpty()) {
+
+                                        // FORMAT - name_cnt_YYYY/M/D/T/m
+                                        String[] arr = object.getName().split("_");
+                                        String[] arr_date = arr[2].split("/");
+                                        String date = arr_date[0] + "년 " + arr_date[1] + "월 " + arr_date[2] + "일";
+
                                         switch (j) {
                                             case 0:
-                                                dbDataList.add(new DBItem("유리", object.getName(),false));
+                                                dbDataList.add(new DBItem("유리", arr[0], date));
                                                 break;
                                             case 1:
-                                                dbDataList.add(new DBItem("고철", object.getName(),false));
+                                                dbDataList.add(new DBItem("고철", arr[0], date));
                                                 break;
                                             case 2:
-                                                dbDataList.add(new DBItem("종이", object.getName(),false));
+                                                dbDataList.add(new DBItem("종이", arr[0], date));
                                                 break;
                                             case 3:
-                                                dbDataList.add(new DBItem("플라스틱", object.getName(),false));
+                                                dbDataList.add(new DBItem("플라스틱", arr[0], date));
                                                 break;
                                             case 4:
-                                                dbDataList.add(new DBItem("비닐", object.getName(),false));
+                                                dbDataList.add(new DBItem("비닐", arr[0], date));
                                                 break;
                                             default:
-                                                dbDataList.add(new DBItem("일반 쓰레기", object.getName(),false));
+                                                dbDataList.add(new DBItem("일반 쓰레기", arr[0], date));
                                         }
-
-                                        Log.i("Amplify", "Data: " + object.getName()); //
-                                        // FORMAT - 물품명_개수_YYYY/M/D/T/m
                                     } else {
                                     }
                                 }

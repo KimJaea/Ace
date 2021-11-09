@@ -76,10 +76,18 @@ public class AccountActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "개인정보 수정하기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
             }
         });
+        Button request = findViewById(R.id.request);
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "문의하기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
+            }
+        });
         Button sign_out = findViewById(R.id.sign_out);
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Toast.makeText(getApplicationContext(), "탈퇴하기 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
             }
         });

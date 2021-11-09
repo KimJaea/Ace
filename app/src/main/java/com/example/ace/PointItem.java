@@ -1,5 +1,7 @@
 package com.example.ace;
 
+import android.util.Log;
+
 public class PointItem {
     int num;
     String date;

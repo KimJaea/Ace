@@ -25,7 +25,7 @@
                 android:layout_margin="8dp" >
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/_id"
                     android:text="@string/_id"
@@ -52,7 +52,7 @@
                 android:layout_margin="8dp" >
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/_point"
                     android:text="@string/_point"
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="bottom"
+            android:layout_weight="1"
             android:layout_gravity="bottom"
             android:layout_margin="8dp" >
 
@@ -102,6 +102,25 @@
                 android:textColor="@color/white"
                 android:background="@drawable/round_button_darker"
                 />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/request"
+                android:text="@string/button_request"
+                android:textSize="24dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button_darker"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:layout_margin="8dp" >
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

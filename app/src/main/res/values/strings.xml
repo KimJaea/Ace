@@ -1,6 +1,7 @@
 <resources>
-    <!-- Login Page -->
     <string name="app_name">쓰레기를 찾아서</string>
+
+    <!-- Login Page -->
     <string name="sign_in">로그인</string>
     <string name="sign_up"> 회원 가입 </string>
     <string name="forgot_account"> 계정 찾기 </string>
@@ -8,7 +9,6 @@
     <!-- Main Page -->
     <string name="button_qr_code">QR 코드</string>
     <string name="button_check_list">기록 확인</string>
-    <string name="button_recycle">건의사항</string>
     <string name="button_account">나의 계정</string>
 
     <!-- Sign In Page -->
@@ -16,21 +16,18 @@
     <string name="button_signin">회원 가입하기</string>
 
     <!-- Find Account Page -->
-    <string name="announcement">입력한 전화번호로 비밀번호가 전송됩니다.</string>
-    <string name="button_find">문자 전송하기</string>
+    <string name="announcement">가입한 ID(전화번호)의 비밀번호를 찾아 드립니다.</string>
+    <string name="button_find">비밀번호 찾기</string>
 
     <!-- QR Page -->
     <string name="qr_code">QR 코드</string>
     <string name="generate_qr_code">QR 코드 생성하기</string>
 
     <!-- List Page -->
-    <string name="button_search">검색하기</string>
-    <string name="button_icon">icon button</string>
-    <string name="text_icon">수정하기</string>
-    <string name="trash_paper">종이</string>
-    <string name="trash_plastic">플라스틱</string>
     <string name="trash_glass">유리</string>
     <string name="trash_metal">고철</string>
+    <string name="trash_paper">종이</string>
+    <string name="trash_plastic">플라스틱</string>
     <string name="trash_plastic_bag">비닐</string>
 
     <!-- Recycle Page -->
@@ -39,10 +36,11 @@
     <string name="button_apply">건의하기</string>
 
     <!-- Account Page -->
-    <string name="_id">ID: </string>
-    <string name="_point">POINT: </string>
-    <string name="button_edit_info">개인정보 수정하기</string>
+    <string name="_id">전화번호: </string>
+    <string name="_point">포인트: </string>
     <string name="button_check_point">포인트 내역 확인하기</string>
+    <string name="button_edit_info">개인정보 수정하기</string>
+    <string name="button_request">문의하기</string>
     <string name="button_sign_out">탈퇴하기</string>
 
 </resources>

@@ -17,7 +17,7 @@ public class RecycleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recycle);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("수정사항 건의사항");
+        actionBar.setTitle("수정사항 건의");
 
         // 수정사항
         EditText input_stuff = findViewById(R.id.input_stuff);

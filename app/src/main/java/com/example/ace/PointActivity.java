@@ -64,8 +64,14 @@ public class PointActivity extends AppCompatActivity {
                                 if(!points.get(j).getPoint().equals("")) {
                                     p = Integer.parseInt(points.get(j).getPoint());
                                 }
-                                pointDataList.add(new PointItem(p, points.get(j).getDate()));
+
                                 // FORMAT - YYYY-MM-DD TT:mm:SS.ssssss
+                                String[] arr = points.get(j).getDate().split(" ");
+                                String[] arr0 = arr[0].split("-");
+                                String[] arr1 = arr[1].split("-");
+                                String date = arr0[0] + "년 " + arr0[1] + "월 " + arr0[2] + "일 " + arr1[0] + "시 " + arr1[1] + "분 ";
+
+                                pointDataList.add(new PointItem(p, date));
                             }
                         }
                     }

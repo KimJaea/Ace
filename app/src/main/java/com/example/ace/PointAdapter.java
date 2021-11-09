@@ -46,7 +46,7 @@ public class PointAdapter extends BaseAdapter {
         TextView pointDate = (TextView)view.findViewById(R.id.point_date);
 
         pointNum.setText(Integer.toString(pointItems.get(position).getNum()) + " P");
-        pointDate.setText("적립 일시: " + pointItems.get(position).getDate());
+        pointDate.setText(pointItems.get(position).getDate());
 
         return view;
     }

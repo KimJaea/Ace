@@ -45,18 +45,11 @@ public class DBAdapter extends BaseAdapter {
 
         TextView trashName = (TextView)view.findViewById(R.id.trash);
         TextView stuffName = (TextView)view.findViewById(R.id.stuff);
-        TextView recycleName = (TextView)view.findViewById(R.id.recycle);
+        TextView dateName = (TextView)view.findViewById(R.id.date);
 
         trashName.setText(dbItems.get(position).getTrash());
         stuffName.setText(dbItems.get(position).getStuff());
-        boolean recycleValue = dbItems.get(position).getRecycle();
-        if(recycleValue) {
-            recycleName.setText("수거 완료");
-            recycleName.setTextColor(ContextCompat.getColor(dbContext, R.color.green_700));
-        } else {
-            recycleName.setText("수거 필요");
-            recycleName.setTextColor(ContextCompat.getColor(dbContext, R.color.red_700));
-        }
+        dateName.setText(dbItems.get(position).getDate());
 
         return view;
     }

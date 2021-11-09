@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.UserData;
 
@@ -60,6 +61,19 @@ public class SigninActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if(able) {
+                                /*
+                                UserData item = UserData.builder()
+                                        .id(idString)
+                                        .userId(Integer.parseInt(idString))
+                                        .userPw(pwString)
+                                        .build();
+
+                                Amplify.DataStore.save(
+                                        item,
+                                        success -> Log.i("Amplify", "Saved item: " + success.item().getId()),
+                                        error -> Log.e("Amplify", "Could not save item to DataStore", error)
+                                );
+                                */
                                 // Toast.makeText(getApplicationContext(), "회원가입이 완료되었습니다.", Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(), "회원가입 서비스는 준비중입니다.", Toast.LENGTH_LONG).show();
                                 finish();

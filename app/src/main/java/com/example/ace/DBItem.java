@@ -3,12 +3,12 @@ package com.example.ace;
 public class DBItem {
     String trash;
     String stuff;
-    boolean recycle;
+    String date;
 
-    public DBItem(String trash, String stuff, boolean recycle) {
+    public DBItem(String trash, String stuff, String date) {
         this.trash = trash;
         this.stuff = stuff;
-        this.recycle = recycle;
+        this.date = date;
     }
 
     public String getTrash() {
@@ -23,11 +23,11 @@ public class DBItem {
     public void setStuff(String stuff) {
         this.stuff = stuff;
     }
-    public boolean getRecycle() {
-        return recycle;
+    public String getDate() {
+        return date;
     }
-    public void getRecycle(boolean recycle) {
-        this.recycle = recycle;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     // Method fo Print the Information
@@ -35,7 +35,7 @@ public class DBItem {
     public String toString() {
         return "Trash: " + trash
                 + "\nStuff: " + stuff
-                + "\nRecycle: " + recycle;
+                + "\nDate: " + date;
     }
 
 }

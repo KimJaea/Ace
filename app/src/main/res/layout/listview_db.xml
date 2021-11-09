@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1" >
+        android:layout_weight="2" >
 
         <TextView
             android:id="@+id/trash"
@@ -31,10 +31,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/recycle"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(재활용 여부)"
+        android:text="(구매 일자)"
         android:textSize="16sp"
         android:layout_weight="1"
         android:gravity="right" />
