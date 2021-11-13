@@ -28,6 +28,7 @@ public class DBActivity extends AppCompatActivity {
     ArrayList<DBItem> showList;
     ArrayList<String> arrayList;
     String[] items = {"전체", "유리", "고철", "종이", "플라스틱", "비닐"};
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,42 +40,31 @@ public class DBActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(UserID + "님의 기록");
 
-        /*
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
-                startActivity(intent);
-            }
-        });
-        */
-
         this.InitializeData();
+
         ListView listView = (ListView) findViewById(R.id.listView_db);
         dbAdapter = new DBAdapter(this, showList);
         listView.setAdapter(dbAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
-                String msg = dbAdapter.getItem(position).getTrash() + " 쓰레기";
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                // String msg = dbAdapter.getItem(position).getTrash() + " 쓰레기";
+                // Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                deleteData(dbAdapter.getItem(position));
             }
         });
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, items);
         spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        Spinner spinner = (Spinner) findViewById(R.id.sort_spinner);
+        spinner = (Spinner) findViewById(R.id.sort_spinner);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 search(items[position]);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }
@@ -95,57 +85,60 @@ public class DBActivity extends AppCompatActivity {
 
     public void InitializeData() {
         dbDataList = new ArrayList<DBItem>();
+        dbDataList = ((VariableApplication)getApplication()).getDbDataList();
 
+        showList = new ArrayList<DBItem>();
+        showList.addAll(dbDataList);
+    }
+
+    public void deleteData(DBItem purposeItem) {
+        String purposeName = purposeItem.getStuff();
+        String purposeTrash = purposeItem.getTrash();
+
+        int purposeNum = 0;
+        for (int i = 0; i < items.length; i++) {
+            if(items[i].equals(purposeTrash)) {
+                purposeNum = i - 1; // 유리0, 고철1, 종이2, 플라스틱3, 비닐4
+                Log.i("Amplify", "purposeNum is " + Integer.toString(purposeNum));
+            }
+        }
+
+        int finalPurposeNum = purposeNum;
         Amplify.DataStore.query(
                 UserData.class,
                 items -> {
                     while (items.hasNext()) {
                         UserData item = items.next();
                         if(item.getUserId().toString().equals(UserID)) {
-                            Log.i("Amplify", "ID: " + item.getUserId().toString());
                             List<ObjectArray> objects = item.getListObject();
                             for(int i = 0; i < objects.size(); i++) {
                                 ObjectArray object = objects.get(i);
+                                if (object.getName().equals(purposeName)) {
+                                    object.getRecycleElement().set(finalPurposeNum, "");
+                                    Log.i("Amplify", "delete " + object.getName() + ", num: " + finalPurposeNum);
+                                }
+
                                 for(int j = 0; j < object.getRecycleElement().size(); j++) {
-                                    if(!object.getRecycleElement().get(j).isEmpty()) {
-
-                                        // FORMAT - name_cnt_YYYY/M/D/T/m
-                                        String[] arr = object.getName().split("_");
-                                        String[] arr_date = arr[2].split("/");
-                                        String date = arr_date[0] + "년 " + arr_date[1] + "월 " + arr_date[2] + "일";
-
-                                        switch (j) {
-                                            case 0:
-                                                dbDataList.add(new DBItem("유리", arr[0], date));
-                                                break;
-                                            case 1:
-                                                dbDataList.add(new DBItem("고철", arr[0], date));
-                                                break;
-                                            case 2:
-                                                dbDataList.add(new DBItem("종이", arr[0], date));
-                                                break;
-                                            case 3:
-                                                dbDataList.add(new DBItem("플라스틱", arr[0], date));
-                                                break;
-                                            case 4:
-                                                dbDataList.add(new DBItem("비닐", arr[0], date));
-                                                break;
-                                            default:
-                                                dbDataList.add(new DBItem("일반 쓰레기", arr[0], date));
-                                        }
-                                    } else {
-                                    }
+                                    object.getRecycleElement().set(j, "");
                                 }
                             }
                         }
                     }
                 },
-                failure -> Log.e("Amplify", "Could not query DataStore", failure)
+                failure -> Log.e("Amplify", "Could not change DataStore", failure)
         );
 
-        showList = new ArrayList<DBItem>();
-        showList.addAll(dbDataList);
+        for(int i = 0; i < dbDataList.size(); i++) {
+            if(dbDataList.get(i).getStuff().equals(purposeName)) {
+                if(dbDataList.get(i).getTrash().equals(purposeTrash)) {
+                    dbDataList.remove(i);
+                    ((VariableApplication)getApplication()).setDbDataList(dbDataList);
+                    search(items[spinner.getSelectedItemPosition()]);
+                }
+            }
+        }
 
+        dbAdapter.notifyDataSetChanged();
     }
 
 }

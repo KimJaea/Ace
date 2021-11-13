@@ -32,20 +32,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"/>
 
-        <!--
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/plus_1024px"
-            android:backgroundTint="@color/white"
-            android:contentDescription="@string/button_icon"
-            android:text="@string/text_icon"
-            android:layout_margin="16dp"
-            app:fabSize="mini" />
-            -->
-
     </FrameLayout>
 
 </LinearLayout>
