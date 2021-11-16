@@ -40,6 +40,14 @@ public class DBActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(UserID + "님의 기록");
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RecycleActivity.class);
+                startActivity(intent);
+            }
+        });
         this.InitializeData();
 
         ListView listView = (ListView) findViewById(R.id.listView_db);
